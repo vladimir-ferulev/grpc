@@ -14,8 +14,7 @@ public class CrossPlatformServiceServer {
 
     public void start() throws TTransportException {
         TServerTransport serverTransport = new TServerSocket(9090);
-        server = new TSimpleServer(new TServer.Args(serverTransport)
-            .processor(new CrossPlatformService.Processor<>(new CrossPlatformServiceImpl())));
+        server = new TSimpleServer(makeServerSettings(serverTransport));
 
         System.out.print("Starting the server... ");
 
@@ -32,5 +31,10 @@ public class CrossPlatformServiceServer {
 
             System.out.println("done.");
         }
+    }
+
+    private static TServer.Args makeServerSettings(TServerTransport serverTransport) {
+        return new TServer.Args(serverTransport)
+                .processor(new CrossPlatformService.Processor<>(new CrossPlatformServiceImpl()));
     }
 }
